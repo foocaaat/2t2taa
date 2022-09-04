@@ -7,9 +7,9 @@ function sleep(ms) {
 }
 
 const work = 1 * 60
-const small = 2 * 60
+const small = 1 * 60
 const big = 15 * 60
-const times = 4 * 60
+const times = 4
 
 
 
@@ -21,17 +21,22 @@ client.on('message', async message => {
   var words = message.content.split(" ");
   if (words[0][0] + words[0][1] + words[0][2] + words[0][3] + words[0][4] + words[0][5] === "yamist") {
     await sleep(5000)
-    message.channel.send("na3m");
+    await message.channel.send("na3m");
     if (message.member.voice.channel) {
       const connection = message.member.voice.channel.join();
     }
 
 
-for(var i = 0; i < times; i++){
+    if (message.member.voice.channel) {
+      const connection = await message.member.voice.channel.join();
+      await connection.play("bell.mp3");
+      await sleep(29000)
+    }
+for(var a = 0; a < times; a++){
 message.channel.send("el7sa bada2t");
-for(var i = 0; i < work; i++){
+for(var b = 0; b < work; b++){
 await sleep(1000)
-
+global.left = Math.floor((work - b) / 60)
 // mute
     const channel = message.channel
     const members = channel.members
@@ -56,7 +61,8 @@ await sleep(1000)
       await connection.play("bell.mp3");
       await sleep(29000)
     }
-for(var i = 0; i < small; i++){i
+for(var c = 0; c < small; c++){
+global.left = Math.floor((small - c) / 60)
 await sleep(1000)
 }
     message.channel.send("5ls elbreak");
@@ -67,24 +73,24 @@ await sleep(1000)
     }
 }
 message.channel.send("break kbeer");
-for(var i = 0; i < big; i++){
+for(var d = 0; d < big; d++){
 await sleep(1000)
+global.left = Math.floor((big - i) / 60)
 }
 
 
   }
 });
 
-function unmute(){
-    const channel = message.channel
-    const members = channel.members
-        members.forEach(member => {
-	    if (member.user.bot === false) {
-            member.voice.setMute(false)
-	    }
-        });
-}
 
-client.login("MTAxNTk4MDQ4ODUyMDg5MjQyNg.GofrJM.jIewY76KNMIihmASzi8xVnOFNkdWLPaSrkfCIY");
+
+client.on("message", message => {
+  if(message.content === "fadl kam") {
+    message.channel.send("fadl " + global.left )
+  }
+})
+
+
+client.login("MTAxNTk4MDQ4ODUyMDg5MjQyNg.GxoNCZ.UaGQUwNP7ElCUO5UeaCiqAcmnK4KjNpAflEkbM");
 
 
