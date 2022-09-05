@@ -6,8 +6,8 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const work = 1 * 60
-const small = 1 * 60
+const work = 25 * 60
+const small = 5 * 60
 const big = 15 * 60
 const times = 4
 
@@ -21,7 +21,7 @@ client.on('message', async message => {
   var words = message.content.split(" ");
   if (words[0][0] + words[0][1] + words[0][2] + words[0][3] + words[0][4] + words[0][5] === "yamist") {
     await sleep(5000)
-    await message.channel.send("na3m");
+    await message.channel.send("نعم");
     if (message.member.voice.channel) {
       const connection = message.member.voice.channel.join();
     }
@@ -33,7 +33,7 @@ client.on('message', async message => {
       await sleep(29000)
     }
 for(var a = 0; a < times; a++){
-message.channel.send("el7sa bada2t");
+message.channel.send("الحصة بدأت");
 for(var b = 0; b < work; b++){
 await sleep(1000)
 global.left = Math.floor((work - b) / 60)
@@ -50,12 +50,13 @@ global.left = Math.floor((work - b) / 60)
 // unmute
     const channel = message.channel
     const members = channel.members
-        members.forEach(member => {
+        await members.forEach(member => {
 	    if (member.user.bot === false) {
             member.voice.setMute(false)
 	    }
         });
-    message.channel.send("yala break");
+      await sleep(10000)
+    message.channel.send("يلا خدو فسحه");
     if (message.member.voice.channel) {
       const connection = await message.member.voice.channel.join();
       await connection.play("bell.mp3");
@@ -65,14 +66,14 @@ for(var c = 0; c < small; c++){
 global.left = Math.floor((small - c) / 60)
 await sleep(1000)
 }
-    message.channel.send("5ls elbreak");
+    message.channel.send("خلصت الفسحه");
     if (message.member.voice.channel) {
       const connection = await message.member.voice.channel.join();
       await connection.play("bell.mp3");
       await sleep(29000)
     }
 }
-message.channel.send("break kbeer");
+message.channel.send("فسحه كبييره");
 for(var d = 0; d < big; d++){
 await sleep(1000)
 global.left = Math.floor((big - i) / 60)
@@ -86,11 +87,11 @@ global.left = Math.floor((big - i) / 60)
 
 client.on("message", message => {
   if(message.content === "fadl kam") {
-    message.channel.send("fadl " + global.left )
+    message.channel.send("فاضل " + global.left )
   }
 })
 
 
-client.login("MTAxNTk4MDQ4ODUyMDg5MjQyNg.GnX5ZT.h-HkqtXPgQxLf_Gu7mx4C2mLugUqVouplN05mg");
+client.login("");
 
 
