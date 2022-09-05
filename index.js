@@ -33,11 +33,27 @@ client.on('message', async message => {
     }
 
 
+// mute
+    global.members = message.member.voice.channel.members
+        global.members.forEach(member => {
+	    if (member.user.bot === true) {
+	    if (member.user.username !== "!                      مستر تامر") {
+            member.voice.setMute(true)
+	    }
+	    }
+        });
     if (message.member.voice.channel) {
       const connection = await message.member.voice.channel.join();
       await connection.play("bell.mp3");
       await sleep(29000)
     }
+// mute
+    global.members = message.member.voice.channel.members
+        global.members.forEach(member => {
+	    if (member.user.bot === true) {
+            member.voice.setMute(false)
+	    }
+        });
 for(var a = 0; a < times; a++){
 const channel = message.channel
 message.channel.send("الحصة بدأت");
@@ -53,11 +69,13 @@ await sleep(1000)
 global.left = Math.floor((work - b) / 60)
 
 }
-// unmute
-    const members = channel.members
-        members.forEach(member => {
-	    if (member.user.bot === false) {
-            member.voice.setMute(false)
+// mute
+    global.members = message.member.voice.channel.members
+        global.members.forEach(member => {
+	    if (member.user.bot === true) {
+	    if (member.user.username !== "!                      مستر تامر") {
+            member.voice.setMute(true)
+	    }
 	    }
         });
     message.channel.send("يلا خدو فسحه");
@@ -66,16 +84,45 @@ global.left = Math.floor((work - b) / 60)
       await connection.play("bell.mp3");
       await sleep(29000)
     }
+// unmute
+    global.members = message.member.voice.channel.members
+        global.members.forEach(member => {
+	    if (member.user.bot === true) {
+            member.voice.setMute(false)
+	    }
+        });
+// unmute
+    const members = channel.members
+        members.forEach(member => {
+	    if (member.user.bot === false) {
+            member.voice.setMute(false)
+	    }
+        });
 for(var c = 0; c < small; c++){
 global.left = Math.floor((small - c) / 60)
 await sleep(1000)
 }
-    message.channel.send("خلصت الفسحه");
+// mute
+    global.members = message.member.voice.channel.members
+        global.members.forEach(member => {
+	    if (member.user.bot === true) {
+	    if (member.user.username !== "!                      مستر تامر") {
+            member.voice.setMute(true)
+	    }
+	    }
+        });
     if (message.member.voice.channel) {
       const connection = await message.member.voice.channel.join();
       await connection.play("bell.mp3");
       await sleep(29000)
     }
+// unmute
+    global.members = message.member.voice.channel.members
+        global.members.forEach(member => {
+	    if (member.user.bot === true) {
+            member.voice.setMute(false)
+	    }
+        });
 }
 message.channel.send("فسحه كبييره");
 for(var d = 0; d < big; d++){
