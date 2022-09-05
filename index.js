@@ -6,10 +6,11 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const work = 25 * 60
+const work =  25 * 60
 const small = 5 * 60
 const big = 15 * 60
 const times = 4
+global.busy = 0
 
 
 
@@ -20,6 +21,11 @@ client.on('message', async message => {
 
   var words = message.content.split(" ");
   if (words[0][0] + words[0][1] + words[0][2] + words[0][3] + words[0][4] + words[0][5] === "yamist") {
+    if (!message.member.voice.channel) {
+     message.channel.send("انت فين");
+    }else {
+  if (global.busy === 0) {
+    global.busy = 1
     await sleep(5000)
     await message.channel.send("نعم");
     if (message.member.voice.channel) {
@@ -33,29 +39,27 @@ client.on('message', async message => {
       await sleep(29000)
     }
 for(var a = 0; a < times; a++){
+const channel = message.channel
 message.channel.send("الحصة بدأت");
-for(var b = 0; b < work; b++){
-await sleep(1000)
-global.left = Math.floor((work - b) / 60)
 // mute
-    const channel = message.channel
-    const members = channel.members
-        members.forEach(member => {
+    global.members = message.member.voice.channel.members
+        global.members.forEach(member => {
 	    if (member.user.bot === false) {
             member.voice.setMute(true)
 	    }
         });
+for(var b = 0; b < work; b++){
+await sleep(1000)
+global.left = Math.floor((work - b) / 60)
 
 }
 // unmute
-    const channel = message.channel
     const members = channel.members
-        await members.forEach(member => {
+        members.forEach(member => {
 	    if (member.user.bot === false) {
             member.voice.setMute(false)
 	    }
         });
-      await sleep(10000)
     message.channel.send("يلا خدو فسحه");
     if (message.member.voice.channel) {
       const connection = await message.member.voice.channel.join();
@@ -80,8 +84,13 @@ global.left = Math.floor((big - i) / 60)
 }
 
 
+global.busy = 0
+  }else {
+    message.channel.send("مش فاضى")
+
   }
-});
+  }
+}});
 
 
 
