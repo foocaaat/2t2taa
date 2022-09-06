@@ -10,6 +10,7 @@ const small = 5 * 60
 const big = 15 * 60
 const times = 4
 global.busy = 0
+global.list = []
 
 
 var fs = require('fs');
@@ -66,19 +67,24 @@ for(var a = 0; a < times; a++){
 const channel = message.channel
 message.channel.send("الحصة بدأت");
 // mute
-    global.members = message.member.voice.channel.members
-        global.members.forEach(member => {
-	    if (member.user.bot === false) {
-	    if (member.voice.serverMute === false) {
-            member.voice.setMute(true)
-	    }
-	    }
-        });
 for(var b = 0; b < work; b++){
 await sleep(1000)
 global.left = Math.floor((work - b) / 60)
 
+    global.members = message.member.voice.channel.members
+        global.members.forEach(member => {
+	    if (member.user.bot === false) {
+	    if (member.voice.serverMute === false) {
+            if (!list.includes(member.user.username)) {
+            member.voice.setMute(true)
+            list.push(member.user.username)
+            console.log(list)
+	    }
+	    }
+	    }
+        });
 }
+global.list = []
 // mute
     global.members = message.member.voice.channel.members
         global.members.forEach(member => {
