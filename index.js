@@ -152,7 +152,7 @@ message.channel.send("خلصت الحصة");
 
 client.on("message", message => {
   if(message.content === "fadl kam") {
-    message.channel.send("فاضل " + global.left )
+    message.channel.send("فاضل " + global.left " دقيقة")
   }
 })
 
