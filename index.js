@@ -13,21 +13,29 @@ const times = 4
 global.busy = 0
 
 
+var fs = require('fs');
+var qu = fs.readFileSync('yamister.txt').toString().split("\n");
+qu.splice(-1)
+var an = fs.readFileSync('n3m.txt').toString().split("\n");
+an.splice(-1)
 
 const ytdl = require('ytdl-core');
 
 client.on('message', async message => {
   if (!message.guild) return;
 
-  var words = message.content.split(" ");
-  if (words[0][0] + words[0][1] + words[0][2] + words[0][3] + words[0][4] + words[0][5] === "yamist") {
+  if (qu.includes(message.content)) {
     if (!message.member.voice.channel) {
+     message.channel.send(an[qu.indexOf(message.content)]);
+     await sleep(1000)
      message.channel.send("انت فين");
+     await sleep(2000)
+     message.channel.send("انا مش شايفك فى الفصل");
     }else {
   if (global.busy === 0) {
     global.busy = 1
     await sleep(5000)
-    await message.channel.send("نعم");
+    await message.channel.send(an[qu.indexOf(message.content)]);
     if (message.member.voice.channel) {
       const connection = message.member.voice.channel.join();
     }
@@ -132,6 +140,7 @@ global.left = Math.floor((big - i) / 60)
 
 
 global.busy = 0
+message.channel.send("خلصت الحصة");
   }else {
     message.channel.send("مش فاضى")
 
@@ -148,6 +157,6 @@ client.on("message", message => {
 })
 
 
-client.login("");
+client.login("MTAxNTk4MDQ4ODUyMDg5MjQyNg.Gj8KK9.Czps-TU2m-FiWYU1Mb7ry0PVRTrPWRRYYQUgj8");
 
 
