@@ -69,7 +69,9 @@ message.channel.send("الحصة بدأت");
     global.members = message.member.voice.channel.members
         global.members.forEach(member => {
 	    if (member.user.bot === false) {
+	    if (member.voice.serverMute === false) {
             member.voice.setMute(true)
+	    }
 	    }
         });
 for(var b = 0; b < work; b++){
@@ -152,7 +154,7 @@ message.channel.send("خلصت الحصة");
 
 client.on("message", message => {
   if(message.content === "fadl kam") {
-    message.channel.send("فاضل " + global.left " دقيقة")
+    message.channel.send("فاضل " + global.left + " دقيقة")
   }
 })
 
