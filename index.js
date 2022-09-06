@@ -78,7 +78,6 @@ global.left = Math.floor((work - b) / 60)
             if (!list.includes(member.user.username)) {
             member.voice.setMute(true)
             list.push(member.user.username)
-            console.log(list)
 	    }
 	    }
 	    }
