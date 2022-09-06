@@ -15,6 +15,7 @@ global.busy = 0
 
 var fs = require('fs');
 var qu = fs.readFileSync('yamister.txt').toString().split("\n");
+var token = fs.readFileSync('no').toString().split("\n");
 qu.splice(-1)
 var an = fs.readFileSync('n3m.txt').toString().split("\n");
 an.splice(-1)
@@ -157,6 +158,6 @@ client.on("message", message => {
 })
 
 
-client.login("MTAxNTk4MDQ4ODUyMDg5MjQyNg.Gj8KK9.Czps-TU2m-FiWYU1Mb7ry0PVRTrPWRRYYQUgj8");
+client.login(token[0]);
 
 
