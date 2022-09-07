@@ -5,10 +5,12 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const work =  25 * 60
-const small = 5 * 60
-const big = 15 * 60
-const times = 4
+
+global.early =  10 * 60
+global.work =  25 * 60
+global.small = 5 * 60
+global.big = 15 * 60
+global.times = 4 * 60
 global.busy = 0
 global.list = []
 
@@ -22,28 +24,8 @@ an.splice(-1)
 
 const ytdl = require('ytdl-core');
 
-client.on('message', async message => {
-  if (!message.guild) return;
-
-  if (qu.includes(message.content)) {
-    if (!message.member.voice.channel) {
-     message.channel.send(an[qu.indexOf(message.content)]);
-     await sleep(1000)
-     message.channel.send("انت فين");
-     await sleep(2000)
-     message.channel.send("انا مش شايفك فى الفصل");
-    }else {
-  if (global.busy === 0) {
-    global.busy = 1
-    await sleep(5000)
-    await message.channel.send(an[qu.indexOf(message.content)]);
-    if (message.member.voice.channel) {
-      const connection = message.member.voice.channel.join();
-    }
-
-
-// mute
-    global.members = message.member.voice.channel.members
+async function bell(){
+global.members = message.member.voice.channel.members
         global.members.forEach(member => {
 	    if (member.user.bot === true) {
 	    if (member.user.username !== "!                      مستر تامر") {
@@ -63,8 +45,38 @@ client.on('message', async message => {
             member.voice.setMute(false)
 	    }
         });
+}
+client.on('message', async message => {
+  if (!message.guild) return;
+global.message = message
+global.members = message.member.voice.channel.members
+  if (qu.includes(message.content)) {
+    if (!message.member.voice.channel) {
+     message.channel.send(an[qu.indexOf(message.content)]);
+     await sleep(1000)
+     message.channel.send("انت فين");
+     await sleep(2000)
+     message.channel.send("انا مش شايفك فى الفصل");
+    }else {
+  if (global.busy === 0) {
+    global.busy = 1
+//    await sleep(5000)
+    await message.channel.send(an[qu.indexOf(message.content)]);
+    if (message.member.voice.channel) {
+      const connection = message.member.voice.channel.join();
+    }
+
+
+await bell()
+message.channel.send("الحصة هتبتدي بعد 20 دقيقة");
+for(var e = 0; e < early ; e++){
+await sleep(1000)
+global.left = Math.floor((early - e) / 60)
+
+}
 for(var a = 0; a < times; a++){
-const channel = message.channel
+await bell()
+global.channel = message.channel
 message.channel.send("الحصة بدأت");
 // mute
 for(var b = 0; b < work; b++){
@@ -84,30 +96,12 @@ global.left = Math.floor((work - b) / 60)
         });
 }
 global.list = []
-// mute
-    global.members = message.member.voice.channel.members
-        global.members.forEach(member => {
-	    if (member.user.bot === true) {
-	    if (member.user.username !== "!                      مستر تامر") {
-            member.voice.setMute(true)
-	    }
-	    }
-        });
+
+if (a !== times - 1){
+    await bell()
     message.channel.send("يلا خدو فسحه");
-    if (message.member.voice.channel) {
-      const connection = await message.member.voice.channel.join();
-      await connection.play("bell.mp3");
-      await sleep(29000)
-    }
 // unmute
-    global.members = message.member.voice.channel.members
-        global.members.forEach(member => {
-	    if (member.user.bot === true) {
-            member.voice.setMute(false)
-	    }
-        });
-// unmute
-    const members = channel.members
+    global.members = channel.members
         members.forEach(member => {
 	    if (member.user.bot === false) {
             member.voice.setMute(false)
@@ -117,35 +111,22 @@ for(var c = 0; c < small; c++){
 global.left = Math.floor((small - c) / 60)
 await sleep(1000)
 }
-// mute
-    global.members = message.member.voice.channel.members
-        global.members.forEach(member => {
-	    if (member.user.bot === true) {
-	    if (member.user.username !== "!                      مستر تامر") {
-            member.voice.setMute(true)
-	    }
-	    }
-        });
-    if (message.member.voice.channel) {
-      const connection = await message.member.voice.channel.join();
-      await connection.play("bell.mp3");
-      await sleep(29000)
-    }
-// unmute
-    global.members = message.member.voice.channel.members
-        global.members.forEach(member => {
-	    if (member.user.bot === true) {
+}
+}
+
+await bell()
+    global.members = channel.members
+        members.forEach(member => {
+	    if (member.user.bot === false) {
             member.voice.setMute(false)
 	    }
         });
-}
 message.channel.send("فسحه كبييره");
 for(var d = 0; d < big; d++){
 await sleep(1000)
-global.left = Math.floor((big - i) / 60)
+global.left = Math.floor((big - d) / 60)
 }
-
-
+await bell()
 global.busy = 0
 message.channel.send("خلصت الحصة");
   }else {
