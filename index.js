@@ -6,11 +6,11 @@ function sleep(ms) {
 }
 
 
-global.early =  10 * 60
+global.early =  20 * 60
 global.work =  25 * 60
 global.small = 5 * 60
 global.big = 15 * 60
-global.times = 4 * 60
+global.times = 4
 global.busy = 0
 global.list = []
 
@@ -24,6 +24,27 @@ an.splice(-1)
 
 const ytdl = require('ytdl-core');
 
+client.on('message', async message => {
+  if (!message.guild) return;
+global.message = message
+  if (qu.includes(message.content)) {
+    if (!message.member.voice.channel) {
+     message.channel.send(an[qu.indexOf(message.content)]);
+     await sleep(1000)
+     message.channel.send("انت فين");
+     await sleep(2000)
+     message.channel.send("انا مش شايفك فى الفصل");
+    }else {
+  if (global.busy === 0) {
+    global.busy = 1
+//    await sleep(5000)
+    await message.channel.send(an[qu.indexOf(message.content)]);
+    if (message.member.voice.channel) {
+      const connection = message.member.voice.channel.join();
+    }
+
+
+global.members = message.member.voice.channel.members
 async function bell(){
 global.members = message.member.voice.channel.members
         global.members.forEach(member => {
@@ -46,29 +67,8 @@ global.members = message.member.voice.channel.members
 	    }
         });
 }
-client.on('message', async message => {
-  if (!message.guild) return;
-global.message = message
-global.members = message.member.voice.channel.members
-  if (qu.includes(message.content)) {
-    if (!message.member.voice.channel) {
-     message.channel.send(an[qu.indexOf(message.content)]);
-     await sleep(1000)
-     message.channel.send("انت فين");
-     await sleep(2000)
-     message.channel.send("انا مش شايفك فى الفصل");
-    }else {
-  if (global.busy === 0) {
-    global.busy = 1
-//    await sleep(5000)
-    await message.channel.send(an[qu.indexOf(message.content)]);
-    if (message.member.voice.channel) {
-      const connection = message.member.voice.channel.join();
-    }
-
-
 await bell()
-message.channel.send("الحصة هتبتدي بعد 20 دقيقة");
+message.channel.send("الحصة هتبتدي بعد " + early / 60 + " دقيقة");
 for(var e = 0; e < early ; e++){
 await sleep(1000)
 global.left = Math.floor((early - e) / 60)
