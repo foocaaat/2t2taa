@@ -12,6 +12,7 @@ global.small = 5 * 60
 global.big = 15 * 60
 global.times = 4
 global.busy = 0
+global.skip = 0
 global.list = []
 
 
@@ -70,11 +71,17 @@ global.members = message.member.voice.channel.members
 await bell()
 message.channel.send("الحصة هتبتدي بعد " + early / 60 + " دقيقة");
 for(var e = 0; e < early ; e++){
+if (skip === 1) { 
+skip = 0
+break 
+}
 await sleep(1000)
 global.left = Math.floor((early - e) / 60)
 
 }
+left = 0
 for(var a = 0; a < times; a++){
+global.timees = a + 1 - times
 await bell()
 global.channel = message.channel
 message.channel.send("الحصة بدأت");
@@ -144,6 +151,17 @@ client.on("message", message => {
   }
 })
 
+client.on("message", message => {
+  if(message.content === "fadl kam mara") {
+    message.channel.send("فاضل " + global.timees + " مره")
+  }
+})
+client.on("message", message => {
+  if(message.content === "skip") {
+    message.channel.send("تخطى")
+    skip = 1
+  }
+})
 
 client.login(token[0]);
 
