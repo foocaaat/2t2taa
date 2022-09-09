@@ -147,13 +147,46 @@ message.channel.send("خلصت الحصة");
 
 client.on("message", message => {
   if(message.content === "fadl kam") {
+  if(!global.left) {
+    message.channel.send("معرفش")
+  }else {
+  if(left > 10) {
     message.channel.send("فاضل " + global.left + " دقيقة")
+  }
+  if(left <= 10 && left >= 3 ) {
+    message.channel.send("فاضل " + global.left + " دقائق")
+  }
+  if(left === 2 ) {
+    message.channel.send("فاضل دقيقتين")
+  }
+  if(left === 1 ) {
+    message.channel.send("فاضل دقيقة")
+  }
+  if(left === 0 ) {
+    message.channel.send("فاضل اقل من دقيقة")
+  }
+  }
   }
 })
 
 client.on("message", message => {
   if(message.content === "fadl kam mara") {
-    message.channel.send("فاضل " + global.timees + " مره")
+  if(!global.timees) {
+    message.channel.send("معرفش")
+  }else {
+  if(timees > 10) {
+    message.channel.send("فاضل " + global.left + " مره")
+  }
+  if(timees <= 10 && timees >= 3 ) {
+    message.channel.send("فاضل " + global.left + " مرات")
+  }
+  if(timees === 2 ) {
+    message.channel.send("فاضل مرتين")
+  }
+  if(timees === 1 ) {
+    message.channel.send("فاضل مره")
+  }
+  }
   }
 })
 client.on("message", message => {
@@ -164,5 +197,3 @@ client.on("message", message => {
 })
 
 client.login(token[0]);
-
-
