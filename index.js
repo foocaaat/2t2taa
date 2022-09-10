@@ -7,11 +7,12 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-global.early = 20 * 60
 global.work = 25 * 60
 global.small = 5 * 60
 global.big = 15 * 60
 global.times = 4
+
+global.early = 20 * 60
 global.busy = 0
 global.skip = 0
 global.list = []
@@ -144,7 +145,7 @@ client.on("message", async (message) => {
 client.on("message", (message) => {
   if (message.content === "fadl kam") {
     if (!global.left) {
-      message.channel.send("معرفش")
+      message.channel.send("لسه مبدأناش")
     } else {
       if (left > 10) {
         message.channel.send("فاضل " + global.left + " دقيقة")
@@ -185,6 +186,7 @@ client.on("message", (message) => {
     }
   }
 })
+
 client.on("message", (message) => {
   if (message.content === "skip") {
     message.channel.send("تخطى")
@@ -192,5 +194,37 @@ client.on("message", (message) => {
   }
 })
 
+client.on("message", (message) => {
+  if (message.content.startsWith("work")) {
+  if (!isNaN(message.content.split(" ")[1])) {
+    message.channel.send("اتظبت على " + message.content.split(" ")[1])
+    global.work = message.content.split(" ")[1] * 60
+   }
+  }
+  if (message.content.startsWith("small")) {
+  if (!isNaN(message.content.split(" ")[1])) {
+    message.channel.send("اتظبت على " + message.content.split(" ")[1])
+    global.small = message.content.split(" ")[1] * 60
+   }
+  }
+  if (message.content.startsWith("big")) {
+  if (!isNaN(message.content.split(" ")[1])) {
+    message.channel.send("اتظبت على " + message.content.split(" ")[1])
+    global.big = message.content.split(" ")[1] * 60
+   }
+  }
+  if (message.content.startsWith("early")) {
+  if (!isNaN(message.content.split(" ")[1])) {
+    message.channel.send("اتظبت على " + message.content.split(" ")[1])
+    global.early = message.content.split(" ")[1] * 60
+   }
+  }
+  if (message.content.startsWith("times")) {
+  if (!isNaN(message.content.split(" ")[1])) {
+    message.channel.send("اتظبت على " + message.content.split(" ")[1])
+    global.times = message.content.split(" ")[1]
+   }
+  }
+})
 client.login(token[0])
 
