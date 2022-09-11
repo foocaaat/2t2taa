@@ -188,6 +188,11 @@ client.on("message", (message) => {
 
 
 client.on("message", (message) => {
+  if (message.content === "help") {
+    message.channel.send("اسأل الى عاملني")
+  }
+})
+client.on("message", (message) => {
   if (message.content === "skip") {
     message.channel.send("تخطى")
     skip = 1
