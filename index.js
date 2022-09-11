@@ -169,7 +169,7 @@ client.on("message", (message) => {
 client.on("message", (message) => {
   if (message.content === "fadl kam mara") {
     if (!global.timees) {
-      message.channel.send("معرفش")
+      message.channel.send("لسه معرقش")
     } else {
       if (timees > 10) {
         message.channel.send("فاضل " + global.left + " مره")
