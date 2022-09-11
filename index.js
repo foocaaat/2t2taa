@@ -80,7 +80,7 @@ client.on("message", async (message) => {
         }
         left = 0
         for (var a = 0; a < times; a++) {
-          global.timees = a + 1 - times
+          global.timees = times - (a + 1) 
           await bell()
           global.channel = message.channel
           message.channel.send("الحصة بدأت")
@@ -143,6 +143,26 @@ client.on("message", async (message) => {
 })
 
 client.on("message", (message) => {
+  if (message.content === "fadl kam mara") {
+    if (!global.timees) {
+      message.channel.send("لسه معرقش")
+    } else {
+      if (timees > 10) {
+        message.channel.send("فاضل " + global.timees + " مره")
+      }
+      if (timees <= 10 && timees >= 3) {
+        message.channel.send("فاضل " + global.timees + " مرات")
+      }
+      if (timees === 2) {
+        message.channel.send("فاضل مرتين")
+      }
+      if (timees === 1) {
+        message.channel.send("فاضل مره")
+      }
+    }
+  }
+})
+client.on("message", (message) => {
   if (message.content === "fadl kam") {
     if (!global.left) {
       message.channel.send("لسه مبدأناش")
@@ -166,26 +186,6 @@ client.on("message", (message) => {
   }
 })
 
-client.on("message", (message) => {
-  if (message.content === "fadl kam mara") {
-    if (!global.timees) {
-      message.channel.send("لسه معرقش")
-    } else {
-      if (timees > 10) {
-        message.channel.send("فاضل " + global.left + " مره")
-      }
-      if (timees <= 10 && timees >= 3) {
-        message.channel.send("فاضل " + global.left + " مرات")
-      }
-      if (timees === 2) {
-        message.channel.send("فاضل مرتين")
-      }
-      if (timees === 1) {
-        message.channel.send("فاضل مره")
-      }
-    }
-  }
-})
 
 client.on("message", (message) => {
   if (message.content === "skip") {
