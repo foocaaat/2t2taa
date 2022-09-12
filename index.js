@@ -15,6 +15,7 @@ global.times = 4
 global.early = 20 * 60
 global.busy = 0
 global.skip = 0
+global.mute = 0
 global.list = []
 
 var fs = require("fs")
@@ -80,7 +81,7 @@ client.on("message", async (message) => {
         }
         left = 0
         for (var a = 0; a < times; a++) {
-          global.timees = times - (a + 1) 
+          global.timees = times - a
           await bell()
           global.channel = message.channel
           message.channel.send("الحصة بدأت")
@@ -91,6 +92,7 @@ client.on("message", async (message) => {
 
             global.members = message.member.voice.channel.members
             global.members.forEach((member) => {
+	      if (mute === 1) {
               if (member.user.bot === false) {
                 if (member.voice.serverMute === false) {
                   if (!list.includes(member.user.username)) {
@@ -99,6 +101,7 @@ client.on("message", async (message) => {
                   }
                 }
               }
+	      }
             })
           }
           global.list = []
@@ -198,6 +201,30 @@ client.on("message", (message) => {
     skip = 1
   }
 })
+client.on("message", (message) => {
+  if (message.content === "stop") {
+    message.channel.send("براحتك")
+    setTimeout(() => {throw new Error("nope");}, 2000) 
+  }
+})
+client.on("message", (message) => {
+  if (message.content === "mute") {
+  if (mute === 0) {
+    message.channel.send("محدش ها يتكلم")
+    mute = 1
+    } else {
+    message.channel.send("اتكلموا عادى")
+    mute = 0 
+global.list = []
+            global.members = message.member.voice.channel.members
+            global.members.forEach((member) => {
+              if (member.user.bot === false) {
+                    member.voice.setMute(false)
+                }
+            })
+  }
+  }
+})
 
 client.on("message", (message) => {
   if (message.content.startsWith("work")) {
@@ -232,4 +259,3 @@ client.on("message", (message) => {
   }
 })
 client.login(token[0])
-
