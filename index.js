@@ -16,6 +16,7 @@ global.early = 20 * 60
 global.busy = 0
 global.skip = 0
 global.mute = 0
+global.stop = 0
 global.list = []
 
 var fs = require("fs")
@@ -48,6 +49,7 @@ client.on("message", async (message) => {
 
         global.members = message.member.voice.channel.members
         async function bell() {
+	  if (stop !== 1) { 
           global.members = message.member.voice.channel.members
           global.members.forEach((member) => {
             if (member.user.bot === true) {
@@ -69,9 +71,13 @@ client.on("message", async (message) => {
             }
           })
         }
+	}
         await bell()
+	if (stop !== 1) { 
         message.channel.send("الحصة هتبتدي بعد " + early / 60 + " دقيقة")
+	}
         for (var e = 0; e < early; e++) {
+	  if (stop === 1) { break }
           if (skip === 1) {
             skip = 0
             break
@@ -81,12 +87,17 @@ client.on("message", async (message) => {
         }
         left = 0
         for (var a = 0; a < times; a++) {
+	  if (stop === 1) { break }
           global.timees = times - a
           await bell()
           global.channel = message.channel
+
+	  if (stop !== 1) { 
           message.channel.send("الحصة بدأت")
+	  }
           // mute
           for (var b = 0; b < work; b++) {
+	  if (stop === 1) { break }
             await sleep(1000)
             global.left = Math.floor((work - b) / 60)
 
@@ -108,7 +119,9 @@ client.on("message", async (message) => {
 
           if (a !== times - 1) {
             await bell()
+	    if (stop !== 1) { 
             message.channel.send("يلا خدو فسحه")
+	    }
             // unmute
             global.members = channel.members
             members.forEach((member) => {
@@ -117,6 +130,7 @@ client.on("message", async (message) => {
               }
             })
             for (var c = 0; c < small; c++) {
+	  if (stop === 1) { break }
               global.left = Math.floor((small - c) / 60)
               await sleep(1000)
             }
@@ -124,19 +138,25 @@ client.on("message", async (message) => {
         }
 
         await bell()
+        global.channel = message.channel
         global.members = channel.members
         members.forEach((member) => {
           if (member.user.bot === false) {
             member.voice.setMute(false)
           }
         })
+	if (stop !== 1) { 
         message.channel.send("فسحه كبييره")
+	}
         for (var d = 0; d < big; d++) {
+	  if (stop === 1) { break }
           await sleep(1000)
           global.left = Math.floor((big - d) / 60)
         }
         await bell()
         global.busy = 0
+        stop = 0
+        console.log("finished")
         message.channel.send("خلصت الحصة")
       } else {
         message.channel.send("مش فاضى")
@@ -204,7 +224,10 @@ client.on("message", (message) => {
 client.on("message", (message) => {
   if (message.content === "stop") {
     message.channel.send("براحتك")
-    setTimeout(() => {throw new Error("nope");}, 2000) 
+        if (message.member.voice.channel) {
+          message.member.voice.channel.leave()
+        }
+	stop = 1
   }
 })
 client.on("message", (message) => {
