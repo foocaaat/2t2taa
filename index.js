@@ -12,7 +12,7 @@ global.small = 5 * 60
 global.big = 15 * 60
 global.times = 4
 
-global.early = 20 * 60
+global.early = 0 * 60
 global.busy = 0
 global.skip = 0
 global.mute = 0
@@ -175,7 +175,6 @@ client.on("message", async (message) => {
 client.on("message", (message) => {
   if (message.content.toLowerCase() === "fadl kam mara" || message.content === "فاضل كام مره" || message.content === "فاضل كام مرة") {
     if (!global.timees) {
-      message.channel.send("لسه معرقش")
     } else {
       if (timees > 10) {
         message.channel.send("فاضل " + global.timees + " مره")

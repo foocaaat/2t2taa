@@ -1,4 +1,7 @@
 يا مستر
+يا مستار
+مستار
+مستر
 ya mister
 ya mistar
 yamister
@@ -18,6 +21,7 @@ yamistaaaa
 sensei
 Ya mister
 Ya mistar
+Ya mista
 Yamister
 Ya mistaaa
 Yamistaaaa
@@ -40,3 +44,5 @@ Mister
 ميستا
 senor
 señor
+ya mstar
+ya mestar
