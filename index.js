@@ -233,7 +233,7 @@ client.on("message", (message) => {
 client.on("message", (message) => {
   if (message.content === "mute") {
   if (mute === 0) {
-    message.channel.send("محدش ها يتكلم")
+    message.channel.send("محدش هايتكلم")
     mute = 1
     } else {
     message.channel.send("اتكلموا عادى")
