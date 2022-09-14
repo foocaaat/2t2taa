@@ -17,6 +17,7 @@ global.busy = 0
 global.skip = 0
 global.mute = 0
 global.stop = 0
+global.extra = 0
 global.list = []
 
 var fs = require("fs")
@@ -83,7 +84,7 @@ client.on("message", async (message) => {
             break
           }
           await sleep(1000)
-          global.left = Math.floor((early - e) / 60)
+          global.left = Math.floor((early - e) / 60) 
         }
         left = 0
         for (var a = 0; a < times; a++) {
@@ -99,7 +100,7 @@ client.on("message", async (message) => {
           for (var b = 0; b < work; b++) {
 	  if (stop === 1) { break }
             await sleep(1000)
-            global.left = Math.floor((work - b) / 60)
+            global.left = Math.floor((work - b) / 60) + Math.floor((extra - e) / 60)
 
             global.members = message.member.voice.channel.members
             global.members.forEach((member) => {
@@ -131,9 +132,15 @@ client.on("message", async (message) => {
             })
             for (var c = 0; c < small; c++) {
 	  if (stop === 1) { break }
-              global.left = Math.floor((small - c) / 60)
+              global.left = Math.floor((small - c) / 60) + Math.floor((extra - e) / 60)
               await sleep(1000)
             }
+            for (var c = 0; c < extra; c++) {
+	  if (stop === 1) { break }
+              global.left = Math.floor((extra - e) / 60)
+              await sleep(1000)
+            }
+	global.extra = 0
           }
         }
 
@@ -166,7 +173,7 @@ client.on("message", async (message) => {
 })
 
 client.on("message", (message) => {
-  if (message.content === "fadl kam mara") {
+  if (message.content.toLowerCase() === "fadl kam mara" || message.content === "فاضل كام مره" || message.content === "فاضل كام مرة") {
     if (!global.timees) {
       message.channel.send("لسه معرقش")
     } else {
@@ -186,9 +193,8 @@ client.on("message", (message) => {
   }
 })
 client.on("message", (message) => {
-  if (message.content === "fadl kam") {
+  if (message.content.toLowerCase() === "fadl kam" || message.content === "فاضل كام") {
     if (!global.left) {
-      message.channel.send("لسه مبدأناش")
     } else {
       if (left > 10) {
         message.channel.send("فاضل " + global.left + " دقيقة")
@@ -211,18 +217,18 @@ client.on("message", (message) => {
 
 
 client.on("message", (message) => {
-  if (message.content === "help") {
+  if (message.content.toLowerCase() === "help"  || message.content === "مساعده" || message.content === "مساعدة") {
     message.channel.send("اسأل الى عاملني")
   }
 })
 client.on("message", (message) => {
-  if (message.content === "skip") {
-    message.channel.send("تخطى")
+  if (message.content.toLowerCase() === "skip" || message.content === "تخطي") {
+    message.channel.send("تمام")
     skip = 1
   }
 })
 client.on("message", (message) => {
-  if (message.content === "stop") {
+  if (message.content.toLowerCase() === "stop" || message.content === "وقف") {
     message.channel.send("براحتك")
         if (message.member.voice.channel) {
           message.member.voice.channel.leave()
@@ -231,7 +237,7 @@ client.on("message", (message) => {
   }
 })
 client.on("message", (message) => {
-  if (message.content === "mute") {
+  if (message.content.toLowerCase() === "mute") {
   if (mute === 0) {
     message.channel.send("محدش هايتكلم")
     mute = 1
@@ -278,6 +284,12 @@ client.on("message", (message) => {
   if (!isNaN(message.content.split(" ")[1])) {
     message.channel.send("اتظبت على " + message.content.split(" ")[1])
     global.times = message.content.split(" ")[1]
+   }
+  }
+  if (message.content.startsWith("add")) {
+  if (!isNaN(message.content.split(" ")[1])) {
+    message.channel.send("ضفت " + message.content.split(" ")[1])
+    global.extra = message.content.split(" ")[1] * 60
    }
   }
 })
