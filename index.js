@@ -16,6 +16,7 @@ global.early = 20 * 60
 global.busy = 0
 global.earlytime = 0
 global.mute = 1
+global.left = "yeye"
 global.stop = 0
 global.extra = 0
 global.list = []
@@ -44,9 +45,6 @@ client.on("message", async (message) => {
         global.busy = 1
         //    await sleep(5000)
         await message.channel.send(an[qu.indexOf(message.content)])
-        if (message.member.voice.channel) {
-          const connection = message.member.voice.channel.join()
-        }
 
         global.members = message.member.voice.channel.members
         async function bell() {
@@ -74,7 +72,6 @@ client.on("message", async (message) => {
         }
 	}
 	if (earlytime === 1) { 
-        await bell()
 	if (stop !== 1) { 
         message.channel.send("الحصة هتبتدي بعد " + early / 60 + " دقيقة")
 	}
@@ -87,10 +84,13 @@ client.on("message", async (message) => {
           global.left = Math.floor((early - e) / 60) 
         }
         }
-        left = 0
+        global.left = "yeye"
         for (var a = 0; a < times; a++) {
 	  if (stop === 1) { break }
           global.timees = times - a
+        if (message.member.voice.channel) {
+          const connection = message.member.voice.channel.join()
+        }
           await bell()
           global.channel = message.channel
 
@@ -101,7 +101,7 @@ client.on("message", async (message) => {
           for (var b = 0; b < work; b++) {
 	  if (stop === 1) { break }
             await sleep(1000)
-            global.left = Math.floor((work - b) / 60) + Math.floor((extra - e) / 60)
+            global.left = Math.floor((work - b) / 60)
 
             global.members = message.member.voice.channel.members
             global.members.forEach((member) => {
@@ -117,6 +117,7 @@ client.on("message", async (message) => {
 	      }
             })
           }
+          global.left = "yeye"
           global.list = []
 
           if (a !== times - 1) {
@@ -133,14 +134,15 @@ client.on("message", async (message) => {
             })
             for (var c = 0; c < small; c++) {
 	  if (stop === 1) { break }
-              global.left = Math.floor((small - c) / 60) + Math.floor((extra - e) / 60)
+              global.left = Math.floor((small - c) / 60) + Math.floor(extra / 60)
               await sleep(1000)
             }
-            for (var c = 0; c < extra; c++) {
+            for (var h = 0; h < extra; h++) {
 	  if (stop === 1) { break }
-              global.left = Math.floor((extra - e) / 60)
+              global.left = Math.floor((extra - h) / 60)
               await sleep(1000)
             }
+        global.left = "yeye"
 	global.extra = 0
           }
         }
@@ -163,6 +165,7 @@ client.on("message", async (message) => {
         }
         await bell()
         global.busy = 0
+        global.left = "yeye"
         stop = 0
         console.log("finished")
         message.channel.send("خلصت الحصة")
@@ -194,8 +197,6 @@ client.on("message", (message) => {
 })
 client.on("message", (message) => {
   if (message.content.toLowerCase() === "fadl kam" || message.content === "فاضل كام") {
-    if (!global.left) {
-    } else {
       if (left > 10) {
         message.channel.send("فاضل " + global.left + " دقيقة")
       }
@@ -208,10 +209,12 @@ client.on("message", (message) => {
       if (left === 1) {
         message.channel.send("فاضل دقيقة")
       }
-      if (left === 0) {
+      if (left < 1) {
         message.channel.send("فاضل اقل من دقيقة")
       }
-    }
+      if (left === "yeye") {
+        message.channel.send("ثوانى")
+      }
   }
 })
 
@@ -300,4 +303,3 @@ client.on("message", (message) => {
   }
 })
 client.login(token[0])
-
