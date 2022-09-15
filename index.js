@@ -12,10 +12,10 @@ global.small = 5 * 60
 global.big = 15 * 60
 global.times = 4
 
-global.early = 0 * 60
+global.early = 20 * 60
 global.busy = 0
-global.skip = 0
-global.mute = 0
+global.earlytime = 0
+global.mute = 1
 global.stop = 0
 global.extra = 0
 global.list = []
@@ -54,7 +54,7 @@ client.on("message", async (message) => {
           global.members = message.member.voice.channel.members
           global.members.forEach((member) => {
             if (member.user.bot === true) {
-              if (member.user.username !== "!                      مستر تامر") {
+              if (member.user.username !== client.user.username) {
                 member.voice.setMute(true)
               }
             }
@@ -73,18 +73,19 @@ client.on("message", async (message) => {
           })
         }
 	}
+	if (earlytime === 1) { 
         await bell()
 	if (stop !== 1) { 
         message.channel.send("الحصة هتبتدي بعد " + early / 60 + " دقيقة")
 	}
         for (var e = 0; e < early; e++) {
 	  if (stop === 1) { break }
-          if (skip === 1) {
-            skip = 0
+          if (earlytime === 0) {
             break
           }
           await sleep(1000)
           global.left = Math.floor((early - e) / 60) 
+        }
         }
         left = 0
         for (var a = 0; a < times; a++) {
@@ -221,9 +222,15 @@ client.on("message", (message) => {
   }
 })
 client.on("message", (message) => {
-  if (message.content.toLowerCase() === "skip" || message.content === "تخطي") {
-    message.channel.send("تمام")
-    skip = 1
+  if (message.content.toLowerCase() === "earlytime" || message.content === "وقت قبل البداية") {
+    if(earlytime === 1){
+    earlytime = 0
+    message.channel.send("اتشال")
+    } else {
+    if(earlytime === 0){
+    earlytime = 1
+    message.channel.send("اتحط")
+    }}
   }
 })
 client.on("message", (message) => {
@@ -293,3 +300,4 @@ client.on("message", (message) => {
   }
 })
 client.login(token[0])
+
