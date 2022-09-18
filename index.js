@@ -103,7 +103,11 @@ client.on("message", async (message) => {
             await sleep(1000)
             global.left = Math.floor((work - b) / 60)
 
+try {
             global.members = message.member.voice.channel.members
+	    } catch (e) {
+console.log("ye")
+	    }
             global.members.forEach((member) => {
 	      if (mute === 1) {
               if (member.user.bot === false) {
