@@ -1,6 +1,26 @@
-const { Client, Intents } = require("discord.js")
-const client = new Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+const { Client, GatewayIntentBits } = require('discord.js');
+const Discord = require('discord.js');
+const { createReadStream } = require('fs');
+const { join } = require('path');
+const {
+    joinVoiceChannel,
+    createAudioPlayer,
+    createAudioResource,
+    StreamType,
+    NoSubscriberBehavior,
+    demuxProbe,
+    entersState,
+    VoiceConnectionStatus
+} = require('@discordjs/voice');
+const client = new Discord.Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildBans,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ]
 })
 
 function sleep(ms) {
@@ -30,21 +50,25 @@ an.splice(-1)
 
 const ytdl = require("ytdl-core")
 
-client.on("message", async (message) => {
+
+
+
+
+client.on("messageCreate", async (message) => {
   if (!message.guild) return
   global.message = message
   if (qu.includes(message.content)) {
-    if (!message.member.voice.channel) {
-      message.channel.send(an[qu.indexOf(message.content)])
+    if (!message.member.voice?.channel) {
+      message.channel.send({ content: an[qu.indexOf(message.content)] })
       await sleep(1000)
-      message.channel.send("انت فين")
+      message.channel.send({ content: "انت فين" })
       await sleep(2000)
-      message.channel.send("انا مش شايفك فى الفصل")
+      message.channel.send({ content: "انا مش شايفك فى الفصل" })
     } else {
       if (global.busy === 0) {
         global.busy = 1
         //    await sleep(5000)
-        await message.channel.send(an[qu.indexOf(message.content)])
+        await message.channel.send({ content: an[qu.indexOf(message.content)] })
 
         global.members = message.member.voice.channel.members
         async function bell() {
@@ -58,8 +82,24 @@ client.on("message", async (message) => {
               }
             })
             if (message.member.voice.channel) {
-              const connection = await message.member.voice.channel.join()
-              await connection.play("bell.mp3")
+
+
+
+
+
+const player = createAudioPlayer({
+	behaviors: {
+		noSubscriber: NoSubscriberBehavior.Pause,
+	},
+});
+joinVoiceChannel({
+    channelId: message.member.voice.channel.id,
+    guildId: message.guild.id,
+    adapterCreator: message.guild.voiceAdapterCreator
+}).subscribe(player)
+resource = createAudioResource("/home/foocaaat/my/mister-tamer/folder/eee.mp3");
+player.play(resource)
+
               await sleep(29000)
             }
             // mute
@@ -73,7 +113,7 @@ client.on("message", async (message) => {
         }
         if (earlytime === 1) { 
           if (stop !== 1) { 
-            message.channel.send("الحصة هتبتدي بعد " + early / 60 + " دقيقة")
+            message.channel.send({ content: "الحصة هتبتدي بعد " + early / 60 + " دقيقة" })
           }
           for (var e = 0; e < early; e++) {
             if (stop === 1) { break }
@@ -89,13 +129,19 @@ client.on("message", async (message) => {
           if (stop === 1) { break }
           global.timees = times - a
           if (message.member.voice.channel) {
-            const connection = message.member.voice.channel.join()
+
+const connection = joinVoiceChannel(
+{
+    channelId: message.member.voice.channel,
+    guildId: message.guild.id,
+    adapterCreator: message.guild.voiceAdapterCreator
+});
           }
           await bell()
           global.channel = message.channel
 
           if (stop !== 1) { 
-            message.channel.send("الحصة بدأت")
+            message.channel.send({ content: "الحصة بدأت" })
           }
           // mute
           for (var b = 0; b < work; b++) {
@@ -127,7 +173,7 @@ client.on("message", async (message) => {
           if (a !== times - 1) {
             await bell()
             if (stop !== 1) { 
-              message.channel.send("يلا خدو فسحه")
+              message.channel.send({ content: "يلا خدو فسحه" })
             }
             // unmute
             global.members = channel.members
@@ -160,7 +206,7 @@ client.on("message", async (message) => {
           }
         })
         if (stop !== 1) { 
-          message.channel.send("فسحه كبييره")
+          message.channel.send({ content: "فسحه كبييره" })
         }
         for (var d = 0; d < big; d++) {
           if (stop === 1) { break }
@@ -172,90 +218,90 @@ client.on("message", async (message) => {
         global.left = "yeye"
         stop = 0
         console.log("finished")
-        message.channel.send("خلصت الحصة")
+        message.channel.send({ content: "خلصت الحصة" })
       } else {
-        message.channel.send("مش فاضى")
+        message.channel.send({ content: "مش فاضى" })
       }
     }
   }
 })
 
-client.on("message", (message) => {
+client.on("messageCreate", (message) => {
   if (message.content.toLowerCase() === "fadl kam mara" || message.content === "فاضل كام مره" || message.content === "فاضل كام مرة") {
     if (!global.timees) {
     } else {
       if (timees > 10) {
-        message.channel.send("فاضل " + global.timees + " مره")
+        message.channel.send({ content: "فاضل " + global.timees + " مره" })
       }
       if (timees <= 10 && timees >= 3) {
-        message.channel.send("فاضل " + global.timees + " مرات")
+        message.channel.send({ content: "فاضل " + global.timees + " مرات" })
       }
       if (timees === 2) {
-        message.channel.send("فاضل مرتين")
+        message.channel.send({ content: "فاضل مرتين" })
       }
       if (timees === 1) {
-        message.channel.send("فاضل مره")
+        message.channel.send({ content: "فاضل مره" })
       }
     }
   }
 })
-client.on("message", (message) => {
+client.on("messageCreate", (message) => {
   if (message.content.toLowerCase() === "fadl kam" || message.content === "فاضل كام") {
     if (left > 10) {
-      message.channel.send("فاضل " + global.left + " دقيقة")
+      message.channel.send({ content: "فاضل " + global.left + " دقيقة" })
     }
     if (left <= 10 && left >= 3) {
-      message.channel.send("فاضل " + global.left + " دقائق")
+      message.channel.send({ content: "فاضل " + global.left + " دقائق" })
     }
     if (left === 2) {
-      message.channel.send("فاضل دقيقتين")
+      message.channel.send({ content: "فاضل دقيقتين" })
     }
     if (left === 1) {
-      message.channel.send("فاضل دقيقة")
+      message.channel.send({ content: "فاضل دقيقة" })
     }
     if (left < 1) {
-      message.channel.send("فاضل اقل من دقيقة")
+      message.channel.send({ content: "فاضل اقل من دقيقة" })
     }
     if (left === "yeye") {
-      message.channel.send("ثوانى")
+      message.channel.send({ content: "ثوانى" })
     }
   }
 })
 
 
-client.on("message", (message) => {
+client.on("messageCreate", (message) => {
   if (message.content.toLowerCase() === "help"  || message.content === "مساعده" || message.content === "مساعدة") {
-    message.channel.send("اسأل الى عاملني")
+    message.channel.send({ content: "اسأل الى عاملني" })
   }
 })
-client.on("message", (message) => {
+client.on("messageCreate", (message) => {
   if (message.content.toLowerCase() === "earlytime" || message.content === "وقت قبل البداية") {
     if(earlytime === 1){
       earlytime = 0
-      message.channel.send("اتشال")
+      message.channel.send({ content: "اتشال" })
     } else {
       if(earlytime === 0){
         earlytime = 1
-        message.channel.send("اتحط")
+        message.channel.send({ content: "اتحط" })
       }}
   }
 })
-client.on("message", (message) => {
+client.on("messageCreate", (message) => {
   if (message.content.toLowerCase() === "stop" || message.content === "وقف") {
-    message.channel.send("براحتك")
+    message.channel.send({ content: "براحتك" })
     if (message.member.voice.channel) {
       message.member.voice.channel.leave()
     }
     stop = 1
   }
 })
-client.on("message", (message) => {
+client.on("messageCreate", (message) => {
   if (message.content.toLowerCase() === "mute") {
     if (mute === 0) {
-      message.channel.send("محدش هايتكلم")
+      message.channel.send({ content: "محدش هايتكلم" })
       mute = 1
     } else {
-      message.channel.send("اتكلموا عادى")
+      message.channel.send({ content: "اتكلموا عادى" })
       mute = 0 
       global.list = []
       global.members = message.member.voice.channel.members
@@ -268,42 +314,43 @@ client.on("message", (message) => {
   }
 })
 
-client.on("message", (message) => {
+client.on("messageCreate", (message) => {
   if (message.content.startsWith("work")) {
     if (!isNaN(message.content.split(" ")[1])) {
-      message.channel.send("اتظبت على " + message.content.split(" ")[1])
+      message.channel.send({ content: "اتظبت على " + message.content.split(" ")[1] })
       global.work = message.content.split(" ")[1] * 60
     }
   }
   if (message.content.startsWith("small")) {
     if (!isNaN(message.content.split(" ")[1])) {
-      message.channel.send("اتظبت على " + message.content.split(" ")[1])
+      message.channel.send({ content: "اتظبت على " + message.content.split(" ")[1] })
       global.small = message.content.split(" ")[1] * 60
     }
   }
   if (message.content.startsWith("big")) {
     if (!isNaN(message.content.split(" ")[1])) {
-      message.channel.send("اتظبت على " + message.content.split(" ")[1])
+      message.channel.send({ content: "اتظبت على " + message.content.split(" ")[1] })
       global.big = message.content.split(" ")[1] * 60
     }
   }
   if (message.content.startsWith("early")) {
     if (!isNaN(message.content.split(" ")[1])) {
-      message.channel.send("اتظبت على " + message.content.split(" ")[1])
+      message.channel.send({ content: "اتظبت على " + message.content.split(" ")[1] })
       global.early = message.content.split(" ")[1] * 60
     }
   }
   if (message.content.startsWith("times")) {
     if (!isNaN(message.content.split(" ")[1])) {
-      message.channel.send("اتظبت على " + message.content.split(" ")[1])
+      message.channel.send({ content: "اتظبت على " + message.content.split(" ")[1] })
       global.times = message.content.split(" ")[1]
     }
   }
   if (message.content.startsWith("add")) {
     if (!isNaN(message.content.split(" ")[1])) {
-      message.channel.send("ضفت " + message.content.split(" ")[1])
+      message.channel.send({ content: "ضفت " + message.content.split(" ")[1] })
       global.extra = message.content.split(" ")[1] * 60
     }
   }
 })
 client.login(token[0])
+  
